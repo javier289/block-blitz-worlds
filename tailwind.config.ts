@@ -61,7 +61,53 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Game world colors
+				wood: {
+					primary: 'hsl(var(--wood-primary))',
+					secondary: 'hsl(var(--wood-secondary))',
+					accent: 'hsl(var(--wood-accent))',
+					bg: 'hsl(var(--wood-bg))'
+				},
+				brick: {
+					primary: 'hsl(var(--brick-primary))',
+					secondary: 'hsl(var(--brick-secondary))',
+					accent: 'hsl(var(--brick-accent))',
+					bg: 'hsl(var(--brick-bg))'
+				},
+				water: {
+					primary: 'hsl(var(--water-primary))',
+					secondary: 'hsl(var(--water-secondary))',
+					accent: 'hsl(var(--water-accent))',
+					bg: 'hsl(var(--water-bg))'
+				},
+				fire: {
+					primary: 'hsl(var(--fire-primary))',
+					secondary: 'hsl(var(--fire-secondary))',
+					accent: 'hsl(var(--fire-accent))',
+					bg: 'hsl(var(--fire-bg))'
+				},
+				ice: {
+					primary: 'hsl(var(--ice-primary))',
+					secondary: 'hsl(var(--ice-secondary))',
+					accent: 'hsl(var(--ice-accent))',
+					bg: 'hsl(var(--ice-bg))'
 				}
+			},
+			backgroundImage: {
+				'gradient-wood': 'var(--gradient-wood)',
+				'gradient-brick': 'var(--gradient-brick)',
+				'gradient-water': 'var(--gradient-water)',
+				'gradient-fire': 'var(--gradient-fire)',
+				'gradient-ice': 'var(--gradient-ice)',
+			},
+			boxShadow: {
+				'glow': 'var(--glow-effect)',
+				'block': 'var(--block-shadow)',
+			},
+			transitionProperty: {
+				'smooth': 'var(--transition-smooth)',
+				'fast': 'var(--transition-fast)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

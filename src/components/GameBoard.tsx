@@ -1,0 +1,95 @@
+import { GameState, World } from '@/types/game';
+
+interface GameBoardProps {
+  gameState: GameState;
+  world: World;
+}
+
+export const GameBoard = ({ gameState, world }: GameBoardProps) => {
+  const { board, currentPiece } = gameState;
+  
+  // Create display board with current piece
+  const displayBoard = board.map((row, y) =>
+    row.map((cell, x) => {
+      // Check if current piece occupies this position
+      if (currentPiece) {
+        for (let py = 0; py < currentPiece.shape.length; py++) {
+          for (let px = 0; px < currentPiece.shape[py].length; px++) {
+            if (
+              currentPiece.shape[py][px] &&
+              currentPiece.x + px === x &&
+              currentPiece.y + py === y
+            ) {
+              return {
+                x,
+                y,
+                color: currentPiece.color,
+                type: currentPiece.type
+              };
+            }
+          }
+        }
+      }
+      return cell;
+    })
+  );
+
+  const getBoardThemeClasses = () => {
+    switch (world.theme) {
+      case 'wood':
+        return 'bg-wood-bg border-wood-secondary';
+      case 'brick':
+        return 'bg-brick-bg border-brick-secondary';
+      case 'water':
+        return 'bg-water-bg border-water-secondary';
+      case 'fire':
+        return 'bg-fire-bg border-fire-secondary';
+      case 'ice':
+        return 'bg-ice-bg border-ice-secondary';
+      default:
+        return 'bg-muted border-border';
+    }
+  };
+
+  const getBlockThemeClasses = (hasBlock: boolean) => {
+    if (!hasBlock) return 'bg-transparent border-border/20';
+    
+    switch (world.theme) {
+      case 'wood':
+        return 'border-wood-accent shadow-md';
+      case 'brick':
+        return 'border-brick-accent shadow-md';
+      case 'water':
+        return 'border-water-accent shadow-md';
+      case 'fire':
+        return 'border-fire-accent shadow-md';
+      case 'ice':
+        return 'border-ice-accent shadow-md';
+      default:
+        return 'border-border shadow-md';
+    }
+  };
+
+  return (
+    <div className={`
+      grid grid-cols-10 gap-0.5 p-4 rounded-xl border-2 
+      ${getBoardThemeClasses()}
+      shadow-lg
+    `}>
+      {displayBoard.map((row, y) =>
+        row.map((cell, x) => (
+          <div
+            key={`${x}-${y}`}
+            className={`
+              w-6 h-6 border rounded-sm transition-all duration-150
+              ${getBlockThemeClasses(!!cell)}
+            `}
+            style={{
+              backgroundColor: cell?.color || 'transparent',
+            }}
+          />
+        ))
+      )}
+    </div>
+  );
+};
