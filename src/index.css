@@ -40,11 +40,14 @@ All colors MUST be HSL.
     --radius: 1rem;
 
     /* Game specific colors */
-    /* Mundo 1: Madera */
-    --wood-primary: 30 40% 35%;
-    --wood-secondary: 35 45% 25%;
-    --wood-accent: 120 30% 40%;
-    --wood-bg: 25 35% 15%;
+    /* Mundo 1: Madera - Bosque cálido con variedad de tonos */
+    --wood-primary: 25 45% 45%;      /* marrón claro cálido */
+    --wood-secondary: 20 55% 35%;    /* marrón medio */
+    --wood-tertiary: 15 65% 25%;     /* marrón oscuro */
+    --wood-accent: 35 60% 55%;       /* marrón dorado */
+    --wood-bg: 30 25% 15%;           /* fondo bosque oscuro */
+    --wood-light: 28 50% 65%;        /* madera clara pulida */
+    --wood-dark: 12 45% 20%;         /* madera oscura */
 
     /* Mundo 2: Ladrillo */
     --brick-primary: 15 80% 50%;

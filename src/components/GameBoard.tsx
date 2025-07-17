@@ -51,12 +51,12 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
     }
   };
 
-  const getBlockThemeClasses = (hasBlock: boolean) => {
+  const getBlockThemeClasses = (hasBlock: boolean, blockType?: string) => {
     if (!hasBlock) return 'bg-transparent border-border/20';
     
     switch (world.theme) {
       case 'wood':
-        return 'border-wood-accent shadow-md';
+        return 'border-wood-accent shadow-lg bg-gradient-to-br from-wood-light to-wood-primary';
       case 'brick':
         return 'border-brick-accent shadow-md';
       case 'water':
@@ -82,10 +82,12 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
             key={`${x}-${y}`}
             className={`
               w-6 h-6 border rounded-sm transition-all duration-150
-              ${getBlockThemeClasses(!!cell)}
+              ${getBlockThemeClasses(!!cell, cell?.type)}
             `}
             style={{
-              backgroundColor: cell?.color || 'transparent',
+              backgroundColor: world.theme === 'wood' && cell ? 
+                `hsl(${25 + Math.random() * 10} ${45 + Math.random() * 15}% ${35 + Math.random() * 20}%)` :
+                (cell?.color || 'transparent'),
             }}
           />
         ))
