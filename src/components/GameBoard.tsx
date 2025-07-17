@@ -64,7 +64,7 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
       case 'fire':
         return 'border-fire-accent shadow-lg bg-gradient-to-br from-fire-hot to-fire-primary animate-pulse';
       case 'ice':
-        return 'border-ice-accent shadow-md';
+        return 'border-ice-accent shadow-lg bg-gradient-to-br from-ice-crystal to-ice-primary backdrop-blur-sm bg-opacity-80';
       default:
         return 'border-border shadow-md';
     }
@@ -89,6 +89,8 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
                 `hsl(${25 + Math.random() * 10} ${45 + Math.random() * 15}% ${35 + Math.random() * 20}%)` :
                 world.theme === 'fire' && cell ?
                 `hsl(${Math.random() * 30} ${85 + Math.random() * 10}% ${45 + Math.random() * 20}%)` :
+                world.theme === 'ice' && cell ?
+                `hsla(${190 + Math.random() * 20} ${60 + Math.random() * 20}% ${75 + Math.random() * 15}%, 0.8)` :
                 (cell?.color || 'transparent'),
             }}
           />

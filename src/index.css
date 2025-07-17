@@ -70,11 +70,14 @@ All colors MUST be HSL.
     --fire-hot: 20 95% 65%;          /* naranja caliente */
     --fire-ember: 0 85% 40%;         /* rojo brasa */
 
-    /* Mundo 5: Hielo */
-    --ice-primary: 200 60% 80%;
-    --ice-secondary: 190 50% 70%;
-    --ice-accent: 180 80% 85%;
-    --ice-bg: 200 40% 30%;
+    /* Mundo 5: Hielo - Montañas congeladas translúcidas */
+    --ice-primary: 200 60% 80%;      /* azul hielo claro */
+    --ice-secondary: 190 50% 70%;    /* azul cristalino */
+    --ice-tertiary: 210 70% 85%;     /* azul muy claro */
+    --ice-accent: 180 80% 85%;       /* azul translúcido */
+    --ice-bg: 200 40% 30%;           /* fondo montaña oscura */
+    --ice-crystal: 195 65% 90%;      /* cristal brillante */
+    --ice-frost: 185 55% 75%;        /* escarcha azul */
 
     /* Gradientes */
     --gradient-wood: linear-gradient(135deg, hsl(var(--wood-primary)), hsl(var(--wood-secondary)));
