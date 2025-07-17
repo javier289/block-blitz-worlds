@@ -61,11 +61,14 @@ All colors MUST be HSL.
     --water-accent: 210 90% 70%;
     --water-bg: 200 50% 25%;
 
-    /* Mundo 4: Fuego */
-    --fire-primary: 5 85% 55%;
-    --fire-secondary: 25 85% 50%;
-    --fire-accent: 45 90% 60%;
-    --fire-bg: 10 70% 20%;
+    /* Mundo 4: Fuego - Lava y llamas intensas */
+    --fire-primary: 10 85% 55%;      /* rojo fuego intenso */
+    --fire-secondary: 25 85% 50%;    /* naranja lava */
+    --fire-tertiary: 5 90% 45%;      /* rojo oscuro lava */
+    --fire-accent: 35 90% 60%;       /* naranja brillante */
+    --fire-bg: 15 70% 20%;           /* fondo volcánico */
+    --fire-hot: 20 95% 65%;          /* naranja caliente */
+    --fire-ember: 0 85% 40%;         /* rojo brasa */
 
     /* Mundo 5: Hielo */
     --ice-primary: 200 60% 80%;

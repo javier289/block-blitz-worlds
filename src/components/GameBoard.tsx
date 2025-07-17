@@ -62,7 +62,7 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
       case 'water':
         return 'border-water-accent shadow-md';
       case 'fire':
-        return 'border-fire-accent shadow-md';
+        return 'border-fire-accent shadow-lg bg-gradient-to-br from-fire-hot to-fire-primary animate-pulse';
       case 'ice':
         return 'border-ice-accent shadow-md';
       default:
@@ -87,6 +87,8 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
             style={{
               backgroundColor: world.theme === 'wood' && cell ? 
                 `hsl(${25 + Math.random() * 10} ${45 + Math.random() * 15}% ${35 + Math.random() * 20}%)` :
+                world.theme === 'fire' && cell ?
+                `hsl(${Math.random() * 30} ${85 + Math.random() * 10}% ${45 + Math.random() * 20}%)` :
                 (cell?.color || 'transparent'),
             }}
           />
