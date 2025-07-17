@@ -114,6 +114,8 @@ export const Game = () => {
         return 'bg-gradient-to-b from-fire-bg to-fire-secondary/30';
       case 'ice':
         return 'bg-gradient-to-b from-ice-bg to-ice-secondary/30';
+      case 'space':
+        return 'bg-gradient-to-b from-space-bg to-space-secondary/30';
       default:
         return 'bg-gradient-to-b from-background to-muted';
     }

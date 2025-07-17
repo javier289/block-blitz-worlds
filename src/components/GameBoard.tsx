@@ -46,6 +46,8 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
         return 'bg-fire-bg border-fire-secondary';
       case 'ice':
         return 'bg-ice-bg border-ice-secondary';
+      case 'space':
+        return 'bg-space-bg border-space-secondary';
       default:
         return 'bg-muted border-border';
     }
@@ -65,6 +67,8 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
         return 'border-fire-accent shadow-lg bg-gradient-to-br from-fire-hot to-fire-primary animate-pulse';
       case 'ice':
         return 'border-ice-accent shadow-lg bg-gradient-to-br from-ice-crystal to-ice-primary backdrop-blur-sm bg-opacity-80';
+      case 'space':
+        return 'border-space-accent shadow-lg bg-gradient-to-br from-space-neon to-space-primary shadow-space-glow animate-pulse';
       default:
         return 'border-border shadow-md';
     }
@@ -91,6 +95,8 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
                 `hsl(${Math.random() * 30} ${85 + Math.random() * 10}% ${45 + Math.random() * 20}%)` :
                 world.theme === 'ice' && cell ?
                 `hsla(${190 + Math.random() * 20} ${60 + Math.random() * 20}% ${75 + Math.random() * 15}%, 0.8)` :
+                world.theme === 'space' && cell ?
+                `hsl(${240 + Math.random() * 60} ${70 + Math.random() * 30}% ${50 + Math.random() * 30}%)` :
                 (cell?.color || 'transparent'),
             }}
           />

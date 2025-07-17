@@ -79,12 +79,22 @@ All colors MUST be HSL.
     --ice-crystal: 195 65% 90%;      /* cristal brillante */
     --ice-frost: 185 55% 75%;        /* escarcha azul */
 
+    /* Mundo 6: Espacio - Nebulosas y neón futurista */
+    --space-primary: 260 80% 60%;     /* púrpura neón */
+    --space-secondary: 280 70% 50%;   /* violeta profundo */
+    --space-tertiary: 240 90% 70%;    /* azul neón */
+    --space-accent: 300 85% 65%;      /* rosa neón */
+    --space-bg: 240 30% 8%;           /* negro espacial */
+    --space-neon: 200 100% 70%;       /* cyan brillante */
+    --space-glow: 280 100% 80%;       /* púrpura brillante */
+
     /* Gradientes */
     --gradient-wood: linear-gradient(135deg, hsl(var(--wood-primary)), hsl(var(--wood-secondary)));
     --gradient-brick: linear-gradient(135deg, hsl(var(--brick-primary)), hsl(var(--brick-secondary)));
     --gradient-water: linear-gradient(135deg, hsl(var(--water-primary)), hsl(var(--water-secondary)));
     --gradient-fire: linear-gradient(135deg, hsl(var(--fire-primary)), hsl(var(--fire-secondary)));
     --gradient-ice: linear-gradient(135deg, hsl(var(--ice-primary)), hsl(var(--ice-secondary)));
+    --gradient-space: linear-gradient(135deg, hsl(var(--space-primary)), hsl(var(--space-secondary)));
 
     /* Efectos de juego */
     --glow-effect: 0 0 20px hsl(var(--primary) / 0.5);

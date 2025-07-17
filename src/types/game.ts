@@ -29,7 +29,7 @@ export interface GameState {
 export interface World {
   id: number;
   name: string;
-  theme: 'wood' | 'brick' | 'water' | 'fire' | 'ice';
+  theme: 'wood' | 'brick' | 'water' | 'fire' | 'ice' | 'space';
   image: string;
   unlocked: boolean;
   completed: boolean;

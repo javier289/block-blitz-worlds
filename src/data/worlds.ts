@@ -4,6 +4,7 @@ import worldBrickImage from '@/assets/world-brick.jpg';
 import worldWaterImage from '@/assets/world-water.jpg';
 import worldFireImage from '@/assets/world-fire.jpg';
 import worldIceImage from '@/assets/world-ice.jpg';
+import worldSpaceImage from '@/assets/world-space.jpg';
 
 export const WORLDS: World[] = [
   {
@@ -91,6 +92,24 @@ export const WORLDS: World[] = [
       number: i + 1,
       targetLines: Math.min(20 + i, 40),
       timeLimit: 180 - i * 10,
+      unlocked: false,
+      completed: false,
+      stars: 0
+    }))
+  },
+  {
+    id: 6,
+    name: "Galaxia Neón",
+    theme: "space",
+    image: worldSpaceImage,
+    unlocked: false,
+    completed: false,
+    levels: Array.from({ length: 15 }, (_, i) => ({
+      id: i + 76,
+      worldId: 6,
+      number: i + 1,
+      targetLines: Math.min(25 + i * 2, 50),
+      timeLimit: 150 - i * 8,
       unlocked: false,
       completed: false,
       stars: 0
