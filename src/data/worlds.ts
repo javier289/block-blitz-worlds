@@ -5,6 +5,7 @@ import worldWaterImage from '@/assets/world-water.jpg';
 import worldFireImage from '@/assets/world-fire.jpg';
 import worldIceImage from '@/assets/world-ice.jpg';
 import worldSpaceImage from '@/assets/world-space.jpg';
+import worldTropicalImage from '@/assets/world-tropical.jpg';
 
 export const WORLDS: World[] = [
   {
@@ -110,6 +111,24 @@ export const WORLDS: World[] = [
       number: i + 1,
       targetLines: Math.min(25 + i * 2, 50),
       timeLimit: 150 - i * 8,
+      unlocked: false,
+      completed: false,
+      stars: 0
+    }))
+  },
+  {
+    id: 7,
+    name: "Paraíso Tropical",
+    theme: "tropical",
+    image: worldTropicalImage,
+    unlocked: false,
+    completed: false,
+    levels: Array.from({ length: 15 }, (_, i) => ({
+      id: i + 91,
+      worldId: 7,
+      number: i + 1,
+      targetLines: Math.min(30 + i * 3, 60),
+      timeLimit: 120 - i * 5,
       unlocked: false,
       completed: false,
       stars: 0

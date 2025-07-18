@@ -88,6 +88,15 @@ All colors MUST be HSL.
     --space-neon: 200 100% 70%;       /* cyan brillante */
     --space-glow: 280 100% 80%;       /* púrpura brillante */
 
+    /* Mundo 7: Tropical - Paraíso caribeño con frutas */
+    --tropical-primary: 30 100% 60%;   /* naranja mango */
+    --tropical-secondary: 165 80% 45%; /* verde palmera */
+    --tropical-tertiary: 350 90% 70%;  /* rosa sandía */
+    --tropical-accent: 45 95% 65%;     /* amarillo piña */
+    --tropical-bg: 200 50% 20%;        /* azul océano profundo */
+    --tropical-coconut: 25 40% 75%;    /* beige coco */
+    --tropical-surf: 195 100% 85%;     /* azul claro océano */
+
     /* Gradientes */
     --gradient-wood: linear-gradient(135deg, hsl(var(--wood-primary)), hsl(var(--wood-secondary)));
     --gradient-brick: linear-gradient(135deg, hsl(var(--brick-primary)), hsl(var(--brick-secondary)));
@@ -95,6 +104,7 @@ All colors MUST be HSL.
     --gradient-fire: linear-gradient(135deg, hsl(var(--fire-primary)), hsl(var(--fire-secondary)));
     --gradient-ice: linear-gradient(135deg, hsl(var(--ice-primary)), hsl(var(--ice-secondary)));
     --gradient-space: linear-gradient(135deg, hsl(var(--space-primary)), hsl(var(--space-secondary)));
+    --gradient-tropical: linear-gradient(135deg, hsl(var(--tropical-primary)), hsl(var(--tropical-secondary)));
 
     /* Efectos de juego */
     --glow-effect: 0 0 20px hsl(var(--primary) / 0.5);
