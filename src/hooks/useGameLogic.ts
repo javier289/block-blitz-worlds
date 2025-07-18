@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { GameState, Tetromino, Block, TetrominoType, World } from '@/types/game';
+import { GameState, Tetromino, Block, TetrominoType, World, Level } from '@/types/game';
+import { useToast } from '@/hooks/use-toast';
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 20;
@@ -24,7 +25,8 @@ const TETROMINO_COLORS: Record<TetrominoType, string> = {
   L: '#ff8c00'
 };
 
-export const useGameLogic = (world: World) => {
+export const useGameLogic = (world: World, currentLevel?: Level) => {
+  const { toast } = useToast();
   const [gameState, setGameState] = useState<GameState>({
     board: Array(BOARD_HEIGHT).fill(null).map(() => Array(BOARD_WIDTH).fill(null)),
     currentPiece: null,
@@ -35,6 +37,60 @@ export const useGameLogic = (world: World) => {
     isGameOver: false,
     isPaused: false
   });
+
+  // Verificar si se cumplió el objetivo del nivel
+  const checkLevelComplete = useCallback((lines: number) => {
+    if (currentLevel && lines >= currentLevel.targetLines) {
+      // Nivel completado
+      const stars = lines >= currentLevel.targetLines * 1.5 ? 3 : 
+                    lines >= currentLevel.targetLines * 1.2 ? 2 : 1;
+      
+      // Guardar progreso en localStorage
+      const progress = JSON.parse(localStorage.getItem('tetris-progress') || '{"completedLevels": [], "unlockedWorlds": [1]}');
+      
+      // Marcar nivel como completado
+      const existingLevel = progress.completedLevels.find((l: any) => l.worldId === world.id && l.levelId === currentLevel.id);
+      if (!existingLevel) {
+        progress.completedLevels.push({
+          worldId: world.id,
+          levelId: currentLevel.id,
+          stars: stars
+        });
+      } else {
+        existingLevel.stars = Math.max(existingLevel.stars, stars);
+      }
+
+      // Desbloquear siguiente nivel/mundo
+      const nextLevel = world.levels.find(l => l.number === currentLevel.number + 1);
+      if (nextLevel) {
+        // Desbloquear siguiente nivel del mismo mundo
+        const nextLevelProgress = progress.completedLevels.find((l: any) => l.worldId === world.id && l.levelId === nextLevel.id);
+        if (!nextLevelProgress) {
+          progress.completedLevels.push({
+            worldId: world.id,
+            levelId: nextLevel.id,
+            stars: 0
+          });
+        }
+      } else {
+        // Es el último nivel del mundo, desbloquear siguiente mundo
+        const nextWorldId = world.id + 1;
+        if (nextWorldId <= 6 && !progress.unlockedWorlds.includes(nextWorldId)) {
+          progress.unlockedWorlds.push(nextWorldId);
+        }
+      }
+
+      localStorage.setItem('tetris-progress', JSON.stringify(progress));
+      
+      toast({
+        title: "¡Nivel Completado!",
+        description: `${stars} estrella${stars > 1 ? 's' : ''} obtenida${stars > 1 ? 's' : ''}`,
+      });
+
+      return true;
+    }
+    return false;
+  }, [currentLevel, world, toast]);
 
   const createRandomTetromino = useCallback((): Tetromino => {
     const types: TetrominoType[] = ['I', 'O', 'T', 'S', 'Z', 'J', 'L'];
@@ -145,6 +201,9 @@ export const useGameLogic = (world: World) => {
         const newLines = prev.lines + linesCleared;
         const newLevel = Math.floor(newLines / 10) + 1;
         
+        // Verificar si se completó el nivel
+        checkLevelComplete(newLines);
+        
         const nextPiece = createRandomTetromino();
         const isGameOver = !isValidPosition(nextPiece, newBoard);
         
@@ -162,7 +221,7 @@ export const useGameLogic = (world: World) => {
       
       return prev;
     });
-  }, [isValidPosition, placePiece, clearLines, createRandomTetromino]);
+  }, [isValidPosition, placePiece, clearLines, createRandomTetromino, checkLevelComplete]);
 
   const rotatePieceInGame = useCallback(() => {
     setGameState(prev => {

@@ -14,7 +14,7 @@ export const Game = () => {
   const world = WORLDS.find(w => w.id === parseInt(worldId || '1'));
   const level = world?.levels.find(l => l.id === parseInt(levelId || '1'));
   
-  const gameLogic = useGameLogic(world!);
+  const gameLogic = useGameLogic(world!, level);
   const { gameState, movePiece, rotatePieceInGame, dropPiece, startGame, pauseGame, resetGame } = gameLogic;
   
   const gameLoopRef = useRef<number>();

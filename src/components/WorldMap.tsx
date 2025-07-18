@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { World, Level } from '@/types/game';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -13,6 +13,54 @@ interface WorldMapProps {
 
 export const WorldMap = ({ worlds, onSelectLevel, onBack }: WorldMapProps) => {
   const [selectedWorld, setSelectedWorld] = useState<World | null>(null);
+  const [updatedWorlds, setUpdatedWorlds] = useState<World[]>(worlds);
+
+  useEffect(() => {
+    // Cargar progreso del localStorage
+    const progress = JSON.parse(localStorage.getItem('tetris-progress') || '{"completedLevels": [], "unlockedWorlds": [1]}');
+    
+    const worldsWithProgress = worlds.map(world => {
+      // Determinar si el mundo está desbloqueado
+      const isUnlocked = progress.unlockedWorlds.includes(world.id);
+      
+      // Actualizar niveles con progreso
+      const levelsWithProgress = world.levels.map((level, index) => {
+        const levelProgress = progress.completedLevels.find((l: any) => l.worldId === world.id && l.levelId === level.id);
+        const isCompleted = !!levelProgress && levelProgress.stars > 0;
+        
+        // El primer nivel siempre está desbloqueado si el mundo está desbloqueado
+        // Los siguientes niveles se desbloquean cuando el nivel anterior está completado
+        const isLevelUnlocked = isUnlocked && (
+          index === 0 || 
+          world.levels[index - 1] && 
+          progress.completedLevels.some((l: any) => 
+            l.worldId === world.id && 
+            l.levelId === world.levels[index - 1].id && 
+            l.stars > 0
+          )
+        );
+        
+        return {
+          ...level,
+          unlocked: isLevelUnlocked,
+          completed: isCompleted,
+          stars: levelProgress?.stars || 0
+        };
+      });
+
+      // Determinar si el mundo está completado
+      const isCompleted = levelsWithProgress.every(level => level.completed);
+
+      return {
+        ...world,
+        unlocked: isUnlocked,
+        completed: isCompleted,
+        levels: levelsWithProgress
+      };
+    });
+
+    setUpdatedWorlds(worldsWithProgress);
+  }, [worlds]);
 
   if (selectedWorld) {
     return (
@@ -35,7 +83,7 @@ export const WorldMap = ({ worlds, onSelectLevel, onBack }: WorldMapProps) => {
         </div>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {worlds.map((world) => (
+          {updatedWorlds.map((world) => (
             <WorldCard
               key={world.id}
               world={world}
@@ -66,6 +114,8 @@ const WorldCard = ({ world, onSelect }: WorldCardProps) => {
         return 'border-fire-primary hover:shadow-fire-primary/20';
       case 'ice':
         return 'border-ice-primary hover:shadow-ice-primary/20';
+      case 'space':
+        return 'border-space-primary hover:shadow-space-primary/20';
       default:
         return 'border-primary hover:shadow-primary/20';
     }
@@ -158,6 +208,8 @@ const LevelMap = ({ world, onSelectLevel, onBack }: LevelMapProps) => {
         return 'from-fire-bg to-fire-secondary';
       case 'ice':
         return 'from-ice-bg to-ice-secondary';
+      case 'space':
+        return 'from-space-bg to-space-secondary';
       default:
         return 'from-background to-muted';
     }
@@ -212,6 +264,8 @@ const LevelButton = ({ level, world, onSelect }: LevelButtonProps) => {
           return 'bg-fire-primary hover:bg-fire-secondary text-fire-accent';
         case 'ice':
           return 'bg-ice-primary hover:bg-ice-secondary text-ice-accent';
+        case 'space':
+          return 'bg-space-primary hover:bg-space-secondary text-space-accent';
         default:
           return 'bg-primary hover:bg-primary/80 text-primary-foreground';
       }
