@@ -25,7 +25,7 @@ const TETROMINO_COLORS: Record<TetrominoType, string> = {
   L: '#ff8c00'
 };
 
-export const useGameLogic = (world: World, currentLevel?: Level) => {
+export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete?: (nextLevelId?: number) => void) => {
   const { toast } = useToast();
   const [gameState, setGameState] = useState<GameState>({
     board: Array(BOARD_HEIGHT).fill(null).map(() => Array(BOARD_WIDTH).fill(null)),
@@ -86,6 +86,18 @@ export const useGameLogic = (world: World, currentLevel?: Level) => {
         title: "¡Nivel Completado!",
         description: `${stars} estrella${stars > 1 ? 's' : ''} obtenida${stars > 1 ? 's' : ''}`,
       });
+
+      // Navegar automáticamente al siguiente nivel después de un breve retraso
+      setTimeout(() => {
+        const currentLevelIndex = world.levels.findIndex(l => l.id === currentLevel?.id);
+        if (currentLevelIndex !== -1 && currentLevelIndex < world.levels.length - 1) {
+          const nextLevel = world.levels[currentLevelIndex + 1];
+          onLevelComplete?.(nextLevel.id);
+        } else {
+          // Es el último nivel del mundo, volver al mapa de mundos
+          onLevelComplete?.();
+        }
+      }, 2000); // Esperar 2 segundos para que el usuario vea la notificación
 
       return true;
     }

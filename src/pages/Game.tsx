@@ -14,7 +14,17 @@ export const Game = () => {
   const world = WORLDS.find(w => w.id === parseInt(worldId || '1'));
   const level = world?.levels.find(l => l.id === parseInt(levelId || '1'));
   
-  const gameLogic = useGameLogic(world!, level);
+  const handleLevelComplete = (nextLevelId?: number) => {
+    if (nextLevelId) {
+      // Navegar al siguiente nivel
+      navigate(`/game/${worldId}/${nextLevelId}`);
+    } else {
+      // Volver al mapa de mundos
+      navigate('/worlds');
+    }
+  };
+
+  const gameLogic = useGameLogic(world!, level, handleLevelComplete);
   const { gameState, movePiece, rotatePieceInGame, dropPiece, startGame, pauseGame, resetGame } = gameLogic;
   
   const gameLoopRef = useRef<number>();
