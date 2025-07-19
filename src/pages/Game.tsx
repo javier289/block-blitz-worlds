@@ -35,8 +35,9 @@ export const Game = () => {
   const dropTimeRef = useRef<number>(0);
 
   useEffect(() => {
+    console.log('Game component mounted/updated - starting game for level:', levelId);
     startGame();
-  }, [startGame]);
+  }, [startGame, levelId]);
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
