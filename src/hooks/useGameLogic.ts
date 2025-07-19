@@ -82,10 +82,13 @@ export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete
 
       localStorage.setItem('tetris-progress', JSON.stringify(progress));
       
-      toast({
-        title: "¡Nivel Completado!",
-        description: `${stars} estrella${stars > 1 ? 's' : ''} obtenida${stars > 1 ? 's' : ''}`,
-      });
+      // Usar setTimeout para evitar problemas de render
+      setTimeout(() => {
+        toast({
+          title: "¡Nivel Completado!",
+          description: `${stars} estrella${stars > 1 ? 's' : ''} obtenida${stars > 1 ? 's' : ''}`,
+        });
+      }, 100);
 
       // Navegar automáticamente al siguiente nivel después de un breve retraso
       setTimeout(() => {
@@ -97,12 +100,12 @@ export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete
           // Es el último nivel del mundo, volver al mapa de mundos
           onLevelComplete?.();
         }
-      }, 1500); // Esperar 1.5 segundos para que el usuario vea la notificación
+      }, 2000); // Esperar 2 segundos para que el usuario vea la notificación
 
       return true;
     }
     return false;
-  }, [currentLevel, world, toast]);
+  }, [currentLevel, world, toast, onLevelComplete]);
 
   const createRandomTetromino = useCallback((): Tetromino => {
     const types: TetrominoType[] = ['I', 'O', 'T', 'S', 'Z', 'J', 'L'];
