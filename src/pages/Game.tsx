@@ -15,11 +15,14 @@ export const Game = () => {
   const level = world?.levels.find(l => l.id === parseInt(levelId || '1'));
   
   const handleLevelComplete = (nextLevelId?: number) => {
+    console.log('handleLevelComplete called with:', nextLevelId);
     if (nextLevelId) {
       // Navegar al siguiente nivel
+      console.log('Navigating to:', `/game/${worldId}/${nextLevelId}`);
       navigate(`/game/${worldId}/${nextLevelId}`);
     } else {
       // Volver al mapa de mundos
+      console.log('Navigating to worlds');
       navigate('/worlds');
     }
   };
