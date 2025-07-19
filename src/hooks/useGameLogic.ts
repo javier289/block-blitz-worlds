@@ -97,7 +97,7 @@ export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete
           // Es el último nivel del mundo, volver al mapa de mundos
           onLevelComplete?.();
         }
-      }, 2000); // Esperar 2 segundos para que el usuario vea la notificación
+      }, 1500); // Esperar 1.5 segundos para que el usuario vea la notificación
 
       return true;
     }
