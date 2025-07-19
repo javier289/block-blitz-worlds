@@ -40,7 +40,9 @@ export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete
 
   // Verificar si se cumplió el objetivo del nivel
   const checkLevelComplete = useCallback((lines: number) => {
+    console.log('Checking level complete:', { lines, targetLines: currentLevel?.targetLines, currentLevel });
     if (currentLevel && lines >= currentLevel.targetLines) {
+      console.log('Level completed! Stars calculation...');
       // Nivel completado
       const stars = lines >= currentLevel.targetLines * 1.5 ? 3 : 
                     lines >= currentLevel.targetLines * 1.2 ? 2 : 1;
@@ -92,12 +94,16 @@ export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete
 
       // Navegar automáticamente al siguiente nivel después de un breve retraso
       setTimeout(() => {
+        console.log('Navigating to next level...');
         const currentLevelIndex = world.levels.findIndex(l => l.id === currentLevel?.id);
+        console.log('Current level index:', currentLevelIndex, 'Total levels:', world.levels.length);
         if (currentLevelIndex !== -1 && currentLevelIndex < world.levels.length - 1) {
           const nextLevel = world.levels[currentLevelIndex + 1];
+          console.log('Next level:', nextLevel);
           onLevelComplete?.(nextLevel.id);
         } else {
           // Es el último nivel del mundo, volver al mapa de mundos
+          console.log('Last level completed, going to world map');
           onLevelComplete?.();
         }
       }, 2000); // Esperar 2 segundos para que el usuario vea la notificación
