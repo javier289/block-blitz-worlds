@@ -38,6 +38,23 @@ export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete
     isPaused: false
   });
 
+  // Reiniciar el juego cuando cambie el nivel
+  useEffect(() => {
+    if (currentLevel) {
+      console.log('Level changed, resetting game state for level:', currentLevel.number);
+      setGameState({
+        board: Array(BOARD_HEIGHT).fill(null).map(() => Array(BOARD_WIDTH).fill(null)),
+        currentPiece: createRandomTetromino(),
+        nextPiece: createRandomTetromino(),
+        score: 0,
+        lines: 0,
+        level: currentLevel.number,
+        isGameOver: false,
+        isPaused: false
+      });
+    }
+  }, [currentLevel?.id]);
+
   // Verificar si se cumplió el objetivo del nivel
   const checkLevelComplete = useCallback((lines: number) => {
     console.log('Checking level complete:', { lines, targetLines: currentLevel?.targetLines, currentLevel });
