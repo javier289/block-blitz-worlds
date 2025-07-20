@@ -62,7 +62,7 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
       case 'wood':
         return 'border-wood-accent shadow-lg bg-gradient-to-br from-wood-light to-wood-primary';
       case 'brick':
-        return 'border-brick-accent shadow-md';
+        return 'border-brick-accent shadow-md bg-gradient-to-br from-brick-primary to-brick-secondary';
       case 'water':
         return 'border-water-accent shadow-md';
       case 'fire':
@@ -78,6 +78,10 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
     }
   };
 
+  const getBrickRoundedClass = () => {
+    return world.theme === 'brick' ? 'rounded-none' : 'rounded-sm';
+  };
+
   return (
     <div className={`
       grid grid-cols-10 gap-0.5 p-4 rounded-xl border-2 
@@ -89,7 +93,8 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
           <div
             key={`${x}-${y}`}
             className={`
-              w-6 h-6 border rounded-sm transition-all duration-150
+              w-6 h-6 border transition-all duration-150
+              ${getBrickRoundedClass()}
               ${getBlockThemeClasses(!!cell, cell?.type)}
             `}
             style={{
