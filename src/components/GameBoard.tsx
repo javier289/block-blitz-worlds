@@ -62,7 +62,7 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
       case 'wood':
         return 'border-wood-accent shadow-lg bg-gradient-to-br from-wood-light to-wood-primary';
       case 'brick':
-        return 'border-brick-accent shadow-md bg-gradient-to-br from-brick-primary to-brick-secondary';
+        return 'border-brick-accent shadow-md';
       case 'water':
         return 'border-water-accent shadow-md';
       case 'fire':
@@ -77,7 +77,6 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
         return 'border-border shadow-md';
     }
   };
-
 
   return (
     <div className={`
@@ -94,7 +93,17 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
               ${getBlockThemeClasses(!!cell, cell?.type)}
             `}
             style={{
-              backgroundColor: cell?.color || 'transparent',
+              backgroundColor: world.theme === 'wood' && cell ? 
+                `hsl(${25 + Math.random() * 10} ${45 + Math.random() * 15}% ${35 + Math.random() * 20}%)` :
+                world.theme === 'fire' && cell ?
+                `hsl(${Math.random() * 30} ${85 + Math.random() * 10}% ${45 + Math.random() * 20}%)` :
+                world.theme === 'ice' && cell ?
+                `hsla(${190 + Math.random() * 20} ${60 + Math.random() * 20}% ${75 + Math.random() * 15}%, 0.8)` :
+                world.theme === 'space' && cell ?
+                `hsl(${240 + Math.random() * 60} ${70 + Math.random() * 30}% ${50 + Math.random() * 30}%)` :
+                world.theme === 'tropical' && cell ?
+                `hsl(${30 + Math.random() * 60} ${80 + Math.random() * 20}% ${50 + Math.random() * 25}%)` :
+                (cell?.color || 'transparent'),
             }}
           />
         ))
