@@ -16,13 +16,13 @@ const TETROMINO_SHAPES: Record<TetrominoType, number[][]> = {
 };
 
 const TETROMINO_COLORS: Record<TetrominoType, string> = {
-  I: '#00f5ff',
-  O: '#ffff00',
-  T: '#800080',
-  S: '#00ff00',
-  Z: '#ff0000',
-  J: '#0000ff',
-  L: '#ff8c00'
+  I: 'hsl(185 100% 50%)',
+  O: 'hsl(60 100% 50%)', 
+  T: 'hsl(300 100% 25%)',
+  S: 'hsl(120 100% 50%)',
+  Z: 'hsl(0 100% 50%)',
+  J: 'hsl(240 100% 50%)',
+  L: 'hsl(30 100% 50%)'
 };
 
 export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete?: (nextLevelId?: number) => void) => {
