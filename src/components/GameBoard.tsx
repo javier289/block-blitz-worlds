@@ -78,9 +78,6 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
     }
   };
 
-  const getBrickRoundedClass = () => {
-    return world.theme === 'brick' ? 'rounded-none' : 'rounded-sm';
-  };
 
   return (
     <div className={`
@@ -93,8 +90,7 @@ export const GameBoard = ({ gameState, world }: GameBoardProps) => {
           <div
             key={`${x}-${y}`}
             className={`
-              w-6 h-6 border transition-all duration-150
-              ${getBrickRoundedClass()}
+              w-6 h-6 border rounded-sm transition-all duration-150
               ${getBlockThemeClasses(!!cell, cell?.type)}
             `}
             style={{
