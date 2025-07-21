@@ -3,9 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { GameBoard } from '@/components/GameBoard';
 import { GameUI } from '@/components/GameUI';
 import { useGameLogic } from '@/hooks/useGameLogic';
+import { useAudio } from '@/hooks/useAudio';
 import { WORLDS } from '@/data/worlds';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Settings } from 'lucide-react';
+import { AudioControls } from '@/components/AudioControls';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 export const Game = () => {
   const { worldId, levelId } = useParams();
@@ -27,12 +30,43 @@ export const Game = () => {
     }
   };
 
-  const gameLogic = useGameLogic(world!, level, handleLevelComplete);
+  // Audio callbacks
+  const handleAudioEvent = (event: string) => {
+    switch (event) {
+      case 'lineClear':
+        playSFX('lineClear');
+        break;
+      case 'gameOver':
+        playSFX('gameOver');
+        pauseMusic();
+        break;
+      case 'levelComplete':
+        playSFX('levelComplete');
+        break;
+    }
+  };
+
+  const gameLogic = useGameLogic(world!, level, handleLevelComplete, handleAudioEvent);
   const { gameState, movePiece, rotatePieceInGame, dropPiece, startGame, pauseGame, resetGame } = gameLogic;
+  
+  // Audio system
+  const audio = useAudio();
+  const { settings, updateSettings, playMusic, pauseMusic, resumeMusic, playSFX, isPlaying } = audio;
   
   const gameLoopRef = useRef<number>();
   const lastTimeRef = useRef<number>(0);
   const dropTimeRef = useRef<number>(0);
+
+  // Iniciar música temática cuando cambia el mundo
+  useEffect(() => {
+    if (world?.theme) {
+      playMusic(world.theme);
+    }
+    return () => {
+      // Pausar música al salir del componente
+      pauseMusic();
+    };
+  }, [world?.theme, playMusic, pauseMusic]);
 
   useEffect(() => {
     console.log('Game component mounted/updated - starting game for level:', levelId);
@@ -47,27 +81,38 @@ export const Game = () => {
         case 'ArrowLeft':
           e.preventDefault();
           movePiece('left');
+          playSFX('move');
           break;
         case 'ArrowRight':
           e.preventDefault();
           movePiece('right');
+          playSFX('move');
           break;
         case 'ArrowDown':
           e.preventDefault();
           movePiece('down');
+          playSFX('move');
           break;
         case 'ArrowUp':
           e.preventDefault();
           rotatePieceInGame();
+          playSFX('rotate');
           break;
         case ' ':
           e.preventDefault();
           dropPiece();
+          playSFX('drop');
           break;
         case 'p':
         case 'P':
           e.preventDefault();
           pauseGame();
+          playSFX('pause');
+          if (gameState.isPaused) {
+            resumeMusic();
+          } else {
+            pauseMusic();
+          }
           break;
       }
     };
@@ -158,6 +203,22 @@ export const Game = () => {
               </p>
             </div>
           </div>
+          
+          {/* Audio Controls */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="icon">
+                <Settings className="w-5 h-5" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <AudioControls
+                settings={settings}
+                onUpdateSettings={updateSettings}
+                isPlaying={isPlaying}
+              />
+            </DialogContent>
+          </Dialog>
         </div>
 
         {/* Game Area */}
@@ -188,7 +249,10 @@ export const Game = () => {
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => movePiece('left')}
+                onClick={() => {
+                  movePiece('left');
+                  playSFX('move');
+                }}
                 disabled={gameState.isPaused || gameState.isGameOver}
               >
                 ←
@@ -196,7 +260,10 @@ export const Game = () => {
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => movePiece('down')}
+                onClick={() => {
+                  movePiece('down');
+                  playSFX('move');
+                }}
                 disabled={gameState.isPaused || gameState.isGameOver}
               >
                 ↓
@@ -204,7 +271,10 @@ export const Game = () => {
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={() => movePiece('right')}
+                onClick={() => {
+                  movePiece('right');
+                  playSFX('move');
+                }}
                 disabled={gameState.isPaused || gameState.isGameOver}
               >
                 →
@@ -212,7 +282,10 @@ export const Game = () => {
               <Button
                 variant="secondary"
                 size="sm"
-                onClick={rotatePieceInGame}
+                onClick={() => {
+                  rotatePieceInGame();
+                  playSFX('rotate');
+                }}
                 disabled={gameState.isPaused || gameState.isGameOver}
               >
                 ↻

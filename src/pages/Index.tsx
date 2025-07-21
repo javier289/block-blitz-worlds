@@ -1,14 +1,43 @@
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Play, Star, Trophy, Gamepad2 } from 'lucide-react';
+import { Play, Star, Trophy, Gamepad2, Settings } from 'lucide-react';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { AudioControls } from '@/components/AudioControls';
+import { useAudio } from '@/hooks/useAudio';
 import worldWoodImage from '@/assets/world-wood.jpg';
 
 const Index = () => {
   const navigate = useNavigate();
+  const audio = useAudio();
+  const { settings, updateSettings, playMusic, isPlaying } = audio;
+
+  // Reproducir música del menú al cargar
+  useEffect(() => {
+    playMusic('menu');
+  }, [playMusic]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-primary/5 to-accent/10">
+      {/* Audio Controls */}
+      <div className="fixed top-4 right-4 z-50">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline" size="icon">
+              <Settings className="w-5 h-5" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md">
+            <AudioControls
+              settings={settings}
+              onUpdateSettings={updateSettings}
+              isPlaying={isPlaying}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
+
       {/* Hero Section */}
       <div className="relative overflow-hidden">
         <div 

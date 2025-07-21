@@ -25,7 +25,7 @@ const TETROMINO_COLORS: Record<TetrominoType, string> = {
   L: '#ff8c00'
 };
 
-export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete?: (nextLevelId?: number) => void) => {
+export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete?: (nextLevelId?: number) => void, onAudioEvent?: (event: string) => void) => {
   const { toast } = useToast();
   const [gameState, setGameState] = useState<GameState>({
     board: Array(BOARD_HEIGHT).fill(null).map(() => Array(BOARD_WIDTH).fill(null)),
@@ -100,6 +100,9 @@ export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete
       }
 
       localStorage.setItem('tetris-progress', JSON.stringify(progress));
+      
+      // Reproducir sonido de nivel completado
+      onAudioEvent?.('levelComplete');
       
       // Usar setTimeout para evitar problemas de render
       setTimeout(() => {
@@ -239,11 +242,20 @@ export const useGameLogic = (world: World, currentLevel?: Level, onLevelComplete
         const newLines = prev.lines + linesCleared;
         const newLevel = Math.floor(newLines / 10) + 1;
         
+        // Reproducir efectos de sonido
+        if (linesCleared > 0) {
+          onAudioEvent?.('lineClear');
+        }
+        
         // Verificar si se completó el nivel
         checkLevelComplete(newLines);
         
         const nextPiece = createRandomTetromino();
         const isGameOver = !isValidPosition(nextPiece, newBoard);
+        
+        if (isGameOver) {
+          onAudioEvent?.('gameOver');
+        }
         
         return {
           ...prev,
